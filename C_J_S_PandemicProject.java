@@ -21,13 +21,17 @@ public class C_J_S_PandemicProject extends JPanel
 	//REVISION July 14 : create an array of Ball objects here in class scope
 	//private final int ARRAY_SIZE = 600;
 	private Person [] personArray;
+
+	private Pandemic_Sim parent;
 	
 	//REVSION NEEDED HERE: need to use the Ball class to create two Ball objects
 	// with different starting locations 
 	//private integer x, y, offsetX, offsetY; //used to position ball on JPanel
 	
-	public C_J_S_PandemicProject(int popSize, int uVacPr, int oneShotPr, int twoShotPr, int naturalPr)
+	public C_J_S_PandemicProject(int popSize, int uVacPr, int oneShotPr, int twoShotPr, int naturalPr, Pandemic_Sim parentFrame)
 	{
+		parent = parentFrame;
+
 		personArray = new Person[popSize+1];
 		//create Timer and register a listener for it.
 		this.time = new Timer(LAG_TIME, new BounceListener() );
@@ -186,6 +190,24 @@ public class C_J_S_PandemicProject extends JPanel
 			
 			//call repaint(), which in turn calls paintComponent() 
 			repaint();
+
+			int uVacCount = 0;
+			int infectedCount = 0;
+
+			for (int i = 0; i < personArray.length; i++) {
+				
+				if (personArray[i].getColor().equals(Color.BLUE)) {
+					uVacCount++;
+					continue;
+				}
+				
+				if (personArray[i].getColor().equals(Color.RED)) {
+					infectedCount++;
+				}
+				
+			}
+			parent.uVacPb.setValue((int)((uVacCount * 1.0 / personArray.length) * 100));
+			parent.infectedPb.setValue((int)((infectedCount * 1.0 / personArray.length) * 100));
 			
 		}//end method
 		

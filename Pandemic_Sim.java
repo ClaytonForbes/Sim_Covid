@@ -15,7 +15,7 @@ public class Pandemic_Sim extends JFrame{
 	JLabel uVacLb2, oneShotLb2, twoShotLb2, naturalLb2, deadLb;
 	JLabel infTot, uVacTot, oneShotTot, twoShotTot, naturalT, deadTot;
 	JComboBox popCb, uVacCb, oneShotCb, twoShotCb, naturalCb;
-	JProgressBar infectedPb, uVacPb, oneShotPb, twoShotPb, naturalPb, deadPb;
+	public JProgressBar infectedPb, uVacPb, oneShotPb, twoShotPb, naturalPb, deadPb;
 	JButton startBtn, stopBtn, resumeBtn;
 	JMenuBar mb;
 	JMenu members;
@@ -27,6 +27,8 @@ public class Pandemic_Sim extends JFrame{
 	//ArrayList<Person> persons = new ArrayList<Person>();
 	int popSize, uVacPr, oneShotPr, twoShotPr, naturalPr;
 	
+	public static int uVacCount = 0;
+
 	public Pandemic_Sim() {
 		super("CJS.CO Pandemic Console");
 		setSize(660, 450);			//suggested size
@@ -183,13 +185,18 @@ public class Pandemic_Sim extends JFrame{
 
                 //this.ContentPane(new JLabel(new ImageIcon("//Users//claytonforbes/Documents//TestPhoto//Covid.jpg")));//mac users to get photos
          		 //this.setLayout(new FlowLayout());
+				
+				if (uVacPr + oneShotPr + twoShotPr + naturalPr != 100) {
+					JOptionPane.showMessageDialog(null, "Please enter percentages that add up to 100%");
+					return;
+				} 
 
 
                 JFrame frame = new JFrame ("CJS Simulation of Covid ");
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new FlowLayout());
                 frame.setSize(100,1000);
-                frame.add(new C_J_S_PandemicProject(popSize, uVacPr, oneShotPr, twoShotPr, naturalPr));
+                createNewFrame(frame);
                 frame.getContentPane().setBackground(Color.BLUE);
                // this.setContentPane(new JLabel(new ImageIcon("//Users//claytonforbes/Documents//TestPhoto//Covid.jpg")));//mac users to get photos
          		 //this.setLayout(new FlowLayout());
@@ -208,6 +215,10 @@ public class Pandemic_Sim extends JFrame{
 	public static void main(String[] args)
 	{
 		new Pandemic_Sim();
+	}
+
+	public void createNewFrame(JFrame frame) {
+		frame.add(new C_J_S_PandemicProject(popSize, uVacPr, oneShotPr, twoShotPr, naturalPr, this));
 	}
 }
 //end class
