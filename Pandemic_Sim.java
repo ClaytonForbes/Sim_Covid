@@ -8,6 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList; 
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Pandemic_Sim extends JFrame{
 	JPanel containerPanel, canvasPanel, inputPanel, outputPanel, menuPanel;
@@ -26,7 +28,7 @@ public class Pandemic_Sim extends JFrame{
 	String [] percents = {"0", "25", "50", "75", "100"};
 	//ArrayList<Person> persons = new ArrayList<Person>();
 	int popSize, uVacPr, oneShotPr, twoShotPr, naturalPr;
-	
+	C_J_S_PandemicProject pandemic;
 	public static int uVacCount = 0;
 
 	public Pandemic_Sim() {
@@ -183,23 +185,24 @@ public class Pandemic_Sim extends JFrame{
                 twoShotPr = Integer.parseInt(percents[twoShotCb.getSelectedIndex()]);
                 naturalPr = Integer.parseInt(percents[naturalCb.getSelectedIndex()]);
 
-                //this.ContentPane(new JLabel(new ImageIcon("//Users//claytonforbes/Documents//TestPhoto//Covid.jpg")));//mac users to get photos
-         		 //this.setLayout(new FlowLayout());
-				
-				if (uVacPr + oneShotPr + twoShotPr + naturalPr != 100) {
+
+				if (uVacPr + oneShotPr + twoShotPr + naturalPr != 100){
 					JOptionPane.showMessageDialog(null, "Please enter percentages that add up to 100%");
 					return;
 				} 
-
 
                 JFrame frame = new JFrame ("CJS Simulation of Covid ");
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.setLayout(new FlowLayout());
                 frame.setSize(100,1000);
+                pandemic =  new C_J_S_PandemicProject(popSize, uVacPr, oneShotPr, twoShotPr, naturalPr, null);
+                //frame.add(pandemic);
                 createNewFrame(frame);
                 frame.getContentPane().setBackground(Color.BLUE);
                // this.setContentPane(new JLabel(new ImageIcon("//Users//claytonforbes/Documents//TestPhoto//Covid.jpg")));//mac users to get photos
          		 //this.setLayout(new FlowLayout());
+//                pandemic = new C_J_S_PandemicProject(popSize, uVacPr, oneShotPr, twoShotPr, naturalPr);
+//                frame.add(pandemic);
                 frame.pack();
                 frame.setVisible(true);
                 
@@ -207,6 +210,20 @@ public class Pandemic_Sim extends JFrame{
             
 
         });
+	    
+	    
+	    stopBtn.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e) {
+	    		pandemic.stop();
+	    	}
+	    });
+	    
+	    resumeBtn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                pandemic.resume();
+            }
+        });
+	    
 	    this.setVisible(true);
 	    
 	    
