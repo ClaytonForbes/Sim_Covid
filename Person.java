@@ -89,6 +89,12 @@ public class Person extends JFrame
 			per2.setColor(this.getColor());
 			per2.setInfected(true);
 		}
+		// this was just put in to make a color for the natural Immunity  this part can be taken out if needed we are just testing if it changes color when we select natural Immunity count.
+		if(this.getColor().equals(Color.RED) && per2.getColor().equals(Color.orange) && (random <= 10))
+		{
+			per2.setColor(this.getColor());
+			per2.setInfected(true);
+		}
 	}
 	
 	
