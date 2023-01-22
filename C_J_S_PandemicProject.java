@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.util.TimerTask;
+
 
 public class C_J_S_PandemicProject extends JPanel
 {
@@ -23,10 +25,32 @@ public class C_J_S_PandemicProject extends JPanel
 	private Person [] personArray;
 
 	private Pandemic_Sim parent;
+	private boolean complete; 
+    private int timeCounter;
+    //REVSION NEEDED HERE: need to use the Ball class to create two Ball objects
+    // with different starting locations 
+    //private integer x, y, offsetX, offsetY; //used to position ball on JPanel
+    int uVacTotal =0;
+    int infTotal = 0;
+    int oneShotTotal = 0;
+    int twoShotTotal = 0;
+    int deadTotal = 0;
+    int naturalTotal =0;
+	public void stop()
+    {
+        if(!complete)
+           time.stop();
+    }
+    public void resume()
+    {
+        if(!complete)
+           time.start();
+    }
 	
 	//REVSION NEEDED HERE: need to use the Ball class to create two Ball objects
 	// with different starting locations 
 	//private integer x, y, offsetX, offsetY; //used to position ball on JPanel
+	
 	
 	public C_J_S_PandemicProject(int popSize, int uVacPr, int oneShotPr, int twoShotPr, int naturalPr, Pandemic_Sim parentFrame)
 	{
@@ -41,6 +65,7 @@ public class C_J_S_PandemicProject extends JPanel
 		//Set the color of the first ball to RED
 		personArray[0] = new Person(Color.RED,WIDTH, HEIGHT, 0);
 		//now set color of remaining balls to BLUE
+		
 		Color color = Color.BLUE;//color to pass in to Ball constructor	
 		
 		int index = 1;
@@ -65,7 +90,7 @@ public class C_J_S_PandemicProject extends JPanel
 				index++;
 		}//end for
 		
-		color = Color.YELLOW;
+		color = Color.orange;
 		for(int i = 0; i < (personArray.length-1) * naturalPr * 0.01; i++)
 		{
 				personArray[index] = new Person(color, WIDTH, HEIGHT, 1);
@@ -193,6 +218,10 @@ public class C_J_S_PandemicProject extends JPanel
 
 			int uVacCount = 0;
 			int infectedCount = 0;
+			int oneShotCount = 0;
+			int twoShotCount = 0;
+			int naturalCount = 0;
+			
 
 			for (int i = 0; i < personArray.length; i++) {
 				
@@ -205,9 +234,22 @@ public class C_J_S_PandemicProject extends JPanel
 					infectedCount++;
 				}
 				
+				if(personArray[i].getColor().equals(Color.CYAN)) {
+					oneShotCount++;
+				}
+				if(personArray[i].getColor().equals(Color.YELLOW)) {
+					twoShotCount++;
+				}
+				if(personArray[i].getColor().equals(Color.orange)) {
+					naturalCount++;
+				}
+
+				
 			}
-			parent.uVacPb.setValue((int)((uVacCount * 1.0 / personArray.length) * 100));
-			parent.infectedPb.setValue((int)((infectedCount * 1.0 / personArray.length) * 100));
+			parent.uVacPb.setValue((int)((uVacCount * 1.0 / personArray.length) * 100));// color red
+			parent.infectedPb.setValue((int)((infectedCount * 1.0 / personArray.length) * 100));// color blue 
+			parent.oneShotPb.setValue((int)((oneShotCount * 1.0 / personArray.length) * 100));//color light blue 
+			parent.twoShotPb.setValue((int)((twoShotCount * 1.0 / personArray.length) * 100));// color yellow 
 			
 		}//end method
 		
